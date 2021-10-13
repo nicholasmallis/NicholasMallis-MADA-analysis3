@@ -1,34 +1,49 @@
-# Overview
 
-A template file and folder structure for a data analysis project/paper done with R/Rmarkdown/Github. 
 
-# Pre-requisites
+The code folders contains code on processing, exploration, and analysis.  
 
-This is a template for a data analysis project using R, Rmarkdown (and variants, e.g. bookdown), Github and a reference manager that can handle bibtex. It is also assumed that you have a word processor installed (e.g. MS Word or [LibreOffice](https://www.libreoffice.org/)). You need that software stack to make use of this template.
+The processing.Rmd file loads in and cleans the data.
 
-# Template structure
+The processed data contains 730 observations and 32 variables.
 
-* All data goes into the subfolders inside the `data` folder.
-* All code goes into the `code` folder or subfolders.
-* All results (figures, tables, computed values) go into `results` folder or subfolders.
-* All products (manuscripts, supplement, presentation slides, web apps, etc.) go into `products` subfolders.
-* See the various `readme.md` files in those folders for some more information.
+Here is the list of variables. Our main outcomes and main predictor are labled as such. With the exception of BodyTemp, all variables are categorical, each indicating the prescence of a certain symptom. In some variables, there are multiple levels of severity for these categorical variables. The Body Temp variable is continuous.
 
-# Template content 
+SwollenLymphNodes 
+ChestCongestion   
+ChillsSweats      
+NasalCongestion   
+CoughYN           
+Sneeze            
+Fatigue         
+SubjectiveFever   
+Headache         
+Weakness          
+WeaknessYN       
+CoughIntensity    
+CoughYN2          
+Myalgia           
+MyalgiaYN        
+RunnyNose (main predictor)       
+AbPain            
+ChestPain        
+Diarrhea          
+EyePn             
+Insomnia          
+ItchyEye          
+Nausea (main outcome)           
+EarPn             
+Hearing          
+Pharyngitis      
+Breathless        
+ToothPn           
+Vision            
+Vomit             
+Wheeze            
+BodyTemp (main outcome)
 
-The template comes with a few files that are meant as illustrative examples of the kinds of content you would place in the different folders. 
 
-* There is a simple, made-up dataset in the `raw_data` folder. 
-* The `processing_code` folder contains a single R script which loads the raw data, performs a bit of cleaning, and saves the result in the `processed_data` folder.
-* The `analysis_code` folder contains an R script which loads the processed data, fits a simple model, and produces a figure and some numeric output, which is saved in the `results` folder.
-* The `products` folder contains an example `bibtex` and CSL style file for references. Those files are used by the example manuscript, poster and slides.
-* The `poster` and `slides` folders contain very basic examples of posters and slides made with R Markdown. Note that especially for slides, there are many different formats. You might find a different format more suitable. Check the R Markdown documentation. 
-* The  `manuscript` folder contains a template for a report written in Rmarkdown (bookdown, to be precise). If you access this repository as part of [my Modern Applied Data Science course](https://andreashandel.github.io/MADAcourse/), the sections are guides for your project. If you found your way to this repository outside the course, you might only be interested in seeing how the file pulls in results and references and generates a word document as output, without paying attention to the detailed structure.
 
-# Getting started
+The exploration.Rmd file explores the data with plots and tables that show descriptive statistics
 
-This is a Github template repository. The best way to get it and start using it is [by following these steps.](https://help.github.com/en/articles/creating-a-repository-from-a-template)
-
-Once you got the repository, you can check out the examples by executing them in order. First run the cleaning script, which will produce the processed data. Then run the analysis script, which will take the processed data and produce some results. Then you can run the manuscript, poster and slides example files in any order. Those files pull in the generated results and display them. These files also pull in references from the `bibtex` file and format them according to the CSL style.
-
+The Analysis.Rmd file runs linear and logistic models and explores model fits.
 

@@ -171,12 +171,9 @@ pre code {
 </div>
 
 
-<ol style="list-style-type: decimal">
-<li>Loads cleaned data.</li>
-</ol>
 <div id="data-loading" class="section level3">
 <h3>Data Loading</h3>
-<pre class="r"><code>#load needed packages. make sure they are installed.
+<pre class="r"><code>#loads needed packages.
 library(ggplot2) #for plotting
 library(broom) #for cleaning up output from lm()
 library(here) #for data loading/saving</code></pre>
@@ -197,8 +194,8 @@ data_location &lt;- here::here(&quot;data&quot;,&quot;processed_data&quot;,&quot
 #load data. 
 mydata &lt;- readRDS(data_location)</code></pre>
 </div>
-<div id="lineas-models" class="section level2">
-<h2>Lineas Models</h2>
+<div id="linear-models" class="section level2">
+<h2>Linear Models</h2>
 <pre class="r"><code>library(tidymodels)  # for the parsnip package, along with the rest of tidymodels</code></pre>
 <pre><code>## Registered S3 method overwritten by 'tune':
 ##   method                   from   
@@ -216,7 +213,7 @@ mydata &lt;- readRDS(data_location)</code></pre>
 ## x dplyr::lag()      masks stats::lag()
 ## x yardstick::spec() masks readr::spec()
 ## x recipes::step()   masks stats::step()
-## • Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+## • Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 <pre class="r"><code># Helper packages
 library(readr)       # for importing data
 library(broom.mixed) # for converting bayesian models to tidy tibbles
@@ -359,7 +356,7 @@ lm_fit2 &lt;-
 lm_fit2</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  19ms 
+## Fit time:  9ms 
 ## 
 ## Call:
 ## stats::lm(formula = BodyTemp ~ . - SwollenLymphNodes - Wheeze, 
@@ -774,7 +771,7 @@ log_fit &lt;-
 log_fit</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  7ms 
+## Fit time:  6ms 
 ## 
 ## Call:  stats::glm(formula = Nausea ~ RunnyNose, family = stats::binomial, 
 ##     data = data)
@@ -866,7 +863,7 @@ log_fit2 &lt;-
 log_fit2</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  17ms 
+## Fit time:  15ms 
 ## 
 ## Call:  stats::glm(formula = Nausea ~ . - SwollenLymphNodes - Wheeze, 
 ##     family = stats::binomial, data = data)
