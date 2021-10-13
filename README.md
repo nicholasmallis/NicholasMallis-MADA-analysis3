@@ -1,6 +1,6 @@
 
 
-The code folders contains code on processing, exploration, and analysis.  
+The code folder contains steps and results on processing, exploration, and analysis.  
 
 The processing.Rmd file loads in and cleans the data.
 
