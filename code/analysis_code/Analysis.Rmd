@@ -128,7 +128,7 @@ knitr::kable(resulttable, caption = 'Multivariate Linear Regression Model with B
 
 
 #Comparing both linear models:
-Here I use ANOVA to test whether the more complex model is significantly better at capturing the data than the simpler model. The resulting p-value is sufficiently low so we conclude that the more complex model is significantly better than the simpler model.
+Here I use ANOVA to test whether the more complex model is significantly better at capturing the data than the simpler model. The resulting p-value is sufficiently low so we conclude that the more complex model is significantly better than the simpler model. Also, from the glance() output prior, we see that the AIC for the multivariate model is lower that the simple model.
 
 ```{r}
 
@@ -191,7 +191,7 @@ resulttable=readRDS("../../results/log_fit_stats.rds")
 knitr::kable(resulttable, caption = 'Simple Logistic Model with Runny Nose as the Predictor and Nausea as the Outcome')
 ```
 
-Fits another logistic model to the categorical outcome using all (important) predictors of interest. Compares the model results for the categorical model with just the main predictor and all predictors.
+Fits another logistic model to the categorical outcome using all (important) predictors of interest. Compares the model results for the categorical model with just the main predictor and all predictors. 
 
 ```{r}
 #same here but for multivariable model
@@ -234,7 +234,7 @@ knitr::kable(resulttable, caption = 'Multivariate Logistic Model with Runny Nose
 
 
 #Comparing both logistic models:
-Due to the high scaled deviance 189.73, we conclude that the model with all predictors is significantly better at capturing the data than the simpler model
+Due to the high scaled deviance 189.73, we conclude that the model with all predictors is significantly better at capturing the data than the simpler model. Also, from the glance() output prior, we see that the AIC for the multivariate model is lower that the simple model.
 ```{r}
 #using anova to compare both the complex and simple
 anova_log <- anova(log_fit$fit, log_fit2$fit)
