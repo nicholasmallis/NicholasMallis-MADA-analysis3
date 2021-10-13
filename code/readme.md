@@ -1,10 +1,47 @@
-Place your various R or Rmd scripts in the appropriate folders.
+These folders contain code on processing, exploration, and analysis  
 
-You can either have fewer large scripts, or multiple scripts that do only specific actions. Those can be R scripts or Rmd files. In either case, document the scripts and what goes on in them so well that someone else (including future you) can easily figure out what is happening.
+The processing.Rmd file loads in and cleans the data.
 
-The scripts should load the appropriate data (e.g. raw or processed), perform actions, and save results (e.g. processed data, figures, computed values) in the appropriate folders. Document somewhere what inputs each script takes and where output is placed. 
+The processed data contains 730 observations and 32 variables.
 
-If scripts need to be run in a specific order, document this. Either as comments in the script, or in a separate text file such as this. Ideally of course in both locations.
+Here is the list of variables. Our main outcomes and main predictor are labled as such. With the exception of BodyTemp, all variables are categorical, each indicating the prescence of a certain symptom. In some variables, there are multiple levels of severity for these categorical variables. The Body Temp variable is continuous.
+
+SwollenLymphNodes 
+ChestCongestion   
+ChillsSweats      
+NasalCongestion   
+CoughYN           
+Sneeze            
+Fatigue         
+SubjectiveFever   
+Headache         
+Weakness          
+WeaknessYN       
+CoughIntensity    
+CoughYN2          
+Myalgia           
+MyalgiaYN        
+RunnyNose (main predictor)       
+AbPain            
+ChestPain        
+Diarrhea          
+EyePn             
+Insomnia          
+ItchyEye          
+Nausea (main outcome)           
+EarPn             
+Hearing          
+Pharyngitis      
+Breathless        
+ToothPn           
+Vision            
+Vomit             
+Wheeze            
+BodyTemp (main outcome)
 
 
-Depending on your specific project, you might want to have further sub-folders.
+
+The exploration.Rmd file explores the data with plots and tables that show descriptive statistics
+
+The Analysis.Rmd file runs linear and logistic models and explores model fits.
+

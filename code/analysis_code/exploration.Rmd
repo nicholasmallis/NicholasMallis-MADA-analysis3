@@ -1,0 +1,173 @@
+---
+title: "Exploration"
+author: "Nicholas Mallis"
+date: "10/11/2021"
+output: html_document
+---
+###Data Loading and Cleaning
+```{r}
+#load needed packages. make sure they are installed.
+library(ggplot2) #for plotting
+library(broom) #for cleaning up output from lm()
+library(here) #for data loading/saving
+library(tidyverse)
+
+#path to data
+#note the use of the here() package and not absolute paths
+data_location <- here::here("data","processed_data","processeddata.rds")
+
+#load data. 
+mydata <- readRDS(data_location)
+
+glimpse(mydata)
+
+```
+
+Descriptive Statistics: Tabling the Main Outcome(s) and Covariates using the table1 package
+```{r,  warning=FALSE, echo=FALSE, message=FALSE}
+library(table1) #loading the table 1 package
+
+
+table1 <- table1(~ Nausea + BodyTemp + RunnyNose + SwollenLymphNodes + ChestCongestion + Weakness +  NasalCongestion + CoughYN + Sneeze + Fatigue + SubjectiveFever + Headache , data=mydata, overall="Total")
+
+table1
+```
+
+
+###Plotting Nausea
+Here we see that 255 (34.9%) of participants reported nausea.
+```{r,  warning=FALSE, echo=FALSE, message=FALSE}
+#Outcome: Nausea
+a <- ggplot(data=mydata, aes(x=Nausea, fill=Nausea)) + geom_bar() +
+labs(title= "Bar Chart of Frequency of Reported Nausea") + xlab("Nausea") +  ylab("Count") + theme_classic()
+a
+```
+
+###Plotting Temperature
+The median body temperature was 98.5 with a minimum of 97.2 and a maximum of 103. Based on the histogram below, we see that the data seems to be skewed with a tail to the right.
+```{r, warning=FALSE, echo=FALSE, message=FALSE }
+
+#here we do body temperature
+b <- mydata %>% ggplot(aes(x=BodyTemp)) + geom_histogram(fill="red", binwidth =.25) + labs(title= "Histogram of Body Temperature") + xlab("Histogram of Body Temperature") +  ylab("Count") + theme_classic()
+b
+
+
+```
+
+###Plotting Runny Nose
+Here we see that 519 (71.1%) of participants reported experiecing a runny nose.
+```{r,  warning=FALSE, echo=FALSE, message=FALSE}
+#Outcome: RunnyNose
+c <- ggplot(data=mydata, aes(x=RunnyNose, fill=RunnyNose)) + geom_bar() +
+labs(title= "Bar Chart of Frequency of Reported Runny Nose") + xlab("Runny Nose") +  ylab("Count") + theme_classic()
+c
+```
+
+
+###Plotting Body Temperature vs Runny Nose
+Here we see that the median(IQR) body temperature was lower in the group who experienced a runny nose was higher at 98.5(98.2-99.2) compared with those who did not experience a runny nose at 98.8 (98.2-99.6).
+
+
+```{r,  warning=FALSE, echo=FALSE, message=FALSE}
+
+#box plots of body temp by Runny Nose
+box <- ggplot(data=mydata, aes(x=RunnyNose, y=BodyTemp, fill=RunnyNose)) + geom_boxplot() + labs(title= "Boxplot of Body Temperature vs Runny Nose ") + xlab("Runny Nose (Yes or No") +  ylab("Body Temperature") + theme_classic()
+box
+
+```
+###Calculating Statistics on Body Temperature by Runny Nose Status
+```{r}
+#define quantiles of interest
+q = c(.25, .75)
+
+#calculate quantiles by grouping variable
+table <- mydata %>%
+  group_by(RunnyNose) %>%
+  summarize(mean= round(mean(BodyTemp), 1) ,
+            sd= round(sd(BodyTemp), 1),
+            median = round(median(BodyTemp, na.rm=TRUE), 1),
+            quant25 = round(quantile(BodyTemp, probs = q[1], na.rm=TRUE), 1), 
+            quant75 = round(quantile(BodyTemp, probs = q[2], na.rm= TRUE), 1))
+
+
+
+#i also combine the 25th percentile and 75th into a character string seperated by a "-"
+table$IQR <- paste(table$quant25, table$quant75, sep = "-")
+
+#then i add parentheses around it using this function
+addparentheses <- function(x){paste("(", x, ")")}
+table$IQR <- addparentheses(table$IQR)
+
+
+# we don't need the first row or middle colums so we delete them
+table <- table[, -c(5,6)]
+
+table
+
+names(table)[1] <- "Runny Nose Status"
+
+
+#saved it as a file
+summarytable_file = here("results", "summarytable.rds")
+saveRDS(table, file = summarytable_file)
+```
+Now I  display the saved file for an improved aesthetic. 
+```{r summarytable,  echo=FALSE, }
+
+resulttable=readRDS("../../results/summarytable.rds")
+knitr::kable(resulttable, caption = 'Table 1. Mean, Median, and IQR of Body Temperature by Runny Nose Status')
+```
+
+
+###Plotting Swollen Lymph Nodes
+Here we see that 312 (42.7%) of participants reported experiecing swollen lymph nodes.
+```{r,  warning=FALSE, echo=FALSE, message=FALSE}
+#SwollenLymphNode
+c <- ggplot(data=mydata, aes(x= SwollenLymphNodes, fill= SwollenLymphNodes)) + geom_bar() +
+labs(title= "Bar Chart of Frequency of Swollen LymphNodes") + xlab(" Swollen LymphNodes") +  ylab("Count") + theme_classic()
+c
+```
+
+###Plotting Body Temperature by Swollen Lymph Nodes 
+Here we see that the median body temperature was fairly close between those who reported swollen lymph nodes and those who did not.
+```{r,  warning=FALSE, echo=FALSE, message=FALSE}
+
+#box plots of body temp by swollen lymph
+box2 <- ggplot(data=mydata, aes(x=SwollenLymphNodes, y=BodyTemp, fill=SwollenLymphNodes)) + geom_boxplot() + labs(title= "Boxplot of Swollen Lymph Nodes vs Runny Nose ") + xlab("Swollen Lymph Nodes (Yes or No") +  ylab("Body Temperature") + theme_classic()
+box2
+
+```
+
+
+
+###Plotting Chest Congestion
+Here we see that 407 (55.8%) of participants reported experiecing chest congestion.
+```{r,  warning=FALSE, echo=FALSE, message=FALSE}
+#ChestCongestion
+d <- ggplot(data=mydata, aes(x= ChestCongestion, fill= ChestCongestion)) + geom_bar() +
+labs(title= "Bar Chart of Frequency of Chest Congestion") + xlab("Chest Congestion") +  ylab("Count") + theme_classic()
+d
+```
+
+
+###Plotting Weakness Level
+Here we see that 120 (16.4%) reported severe weakness, 338 (46.3%) reported moderate weakness, and 223 (30.5%) reported mild weakness.
+
+
+```{r,  warning=FALSE, echo=FALSE, message=FALSE}
+#Weakness 
+e <- ggplot(data=mydata, aes(x= Weakness , fill= Weakness )) + geom_bar() +
+labs(title= "Bar Chart of Frequency of Reported Weakness Level") + xlab("Reported Weakness Level") +  ylab("Count") + theme_classic()
+e
+```
+
+
+
+
+
+
+
+
+
+
+
