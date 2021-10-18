@@ -213,7 +213,7 @@ mydata &lt;- readRDS(data_location)</code></pre>
 ## x dplyr::lag()      masks stats::lag()
 ## x yardstick::spec() masks readr::spec()
 ## x recipes::step()   masks stats::step()
-## • Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
+## • Use tidymodels_prefer() to resolve common conflicts.</code></pre>
 <pre class="r"><code># Helper packages
 library(readr)       # for importing data
 library(broom.mixed) # for converting bayesian models to tidy tibbles
@@ -243,7 +243,7 @@ lm_fit &lt;-
 lm_fit</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  4ms 
+## Fit time:  5ms 
 ## 
 ## Call:
 ## stats::lm(formula = BodyTemp ~ RunnyNose, data = data)
@@ -720,10 +720,16 @@ saveRDS(lm_fit_full_stats, file = summarytable_file5)</code></pre>
 </div>
 <div id="comparing-both-linear-models" class="section level1">
 <h1>Comparing both linear models:</h1>
-<p>Here I use ANOVA to test whether the more complex model is significantly better at capturing the data than the simpler model. The resulting p-value is sufficiently low so we conclude that the more complex model is significantly better than the simpler model.</p>
+<p>Here I use ANOVA to test whether the more complex model is significantly better at capturing the data than the simpler model. The resulting p-value is sufficiently low so we conclude that the more complex model is significantly better than the simpler model. Also, from the glance() output prior, we see that the AIC for the multivariate model is lower that the simple model.</p>
 <pre class="r"><code>comparing_lm_anova &lt;- anova(lm_fit$fit, lm_fit2$fit)
 
-summarytable_file6 = here(&quot;results&quot;, &quot;comparing_lm_anova.rds&quot;)
+tidy(anova(lm_fit$fit, lm_fit2$fit))</code></pre>
+<pre><code>## # A tibble: 2 × 6
+##   res.df   rss    df sumsq statistic      p.value
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+## 1    728 1031.    NA   NA      NA    NA          
+## 2    697  914.    31  117.      2.88  0.000000506</code></pre>
+<pre class="r"><code>summarytable_file6 = here(&quot;results&quot;, &quot;comparing_lm_anova.rds&quot;)
 saveRDS(comparing_lm_anova, file = summarytable_file6)</code></pre>
 <p>Now I display the saved file for an improved aesthetic.</p>
 <table>
@@ -863,7 +869,7 @@ log_fit2 &lt;-
 log_fit2</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  16ms 
+## Fit time:  17ms 
 ## 
 ## Call:  stats::glm(formula = Nausea ~ . - SwollenLymphNodes - Wheeze, 
 ##     family = stats::binomial, data = data)
@@ -1203,7 +1209,7 @@ saveRDS(log_fit_full_stats, file = summarytable_file10)</code></pre>
 </div>
 <div id="comparing-both-logistic-models" class="section level1">
 <h1>Comparing both logistic models:</h1>
-<p>Due to the high scaled deviance 189.73, we conclude that the model with all predictors is significantly better at capturing the data than the simpler model</p>
+<p>Due to the high scaled deviance 189.73, we conclude that the model with all predictors is significantly better at capturing the data than the simpler model. Also, from the glance() output prior, we see that the AIC for the multivariate model is lower that the simple model.</p>
 <pre class="r"><code>#using anova to compare both the complex and simple
 anova_log &lt;- anova(log_fit$fit, log_fit2$fit)
 

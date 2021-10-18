@@ -134,6 +134,8 @@ Here I use ANOVA to test whether the more complex model is significantly better 
 
 comparing_lm_anova <- anova(lm_fit$fit, lm_fit2$fit)
 
+tidy(anova(lm_fit$fit, lm_fit2$fit))
+
 summarytable_file6 = here("results", "comparing_lm_anova.rds")
 saveRDS(comparing_lm_anova, file = summarytable_file6)
 ```
