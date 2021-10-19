@@ -213,7 +213,7 @@ mydata &lt;- readRDS(data_location)</code></pre>
 ## x dplyr::lag()      masks stats::lag()
 ## x yardstick::spec() masks readr::spec()
 ## x recipes::step()   masks stats::step()
-## • Dig deeper into tidy modeling with R at https://www.tmwr.org</code></pre>
+## • Use suppressPackageStartupMessages() to eliminate package startup messages</code></pre>
 <pre class="r"><code># Helper packages
 library(readr)       # for importing data
 library(broom.mixed) # for converting bayesian models to tidy tibbles
@@ -243,7 +243,7 @@ lm_fit &lt;-
 lm_fit</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  13ms 
+## Fit time:  5ms 
 ## 
 ## Call:
 ## stats::lm(formula = BodyTemp ~ RunnyNose, data = data)
@@ -356,7 +356,7 @@ lm_fit2 &lt;-
 lm_fit2</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  9ms 
+## Fit time:  10ms 
 ## 
 ## Call:
 ## stats::lm(formula = BodyTemp ~ . - SwollenLymphNodes - Wheeze, 
@@ -777,7 +777,7 @@ log_fit &lt;-
 log_fit</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  9ms 
+## Fit time:  5ms 
 ## 
 ## Call:  stats::glm(formula = Nausea ~ RunnyNose, family = stats::binomial, 
 ##     data = data)
@@ -869,7 +869,7 @@ log_fit2 &lt;-
 log_fit2</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  16ms 
+## Fit time:  15ms 
 ## 
 ## Call:  stats::glm(formula = Nausea ~ . - SwollenLymphNodes - Wheeze, 
 ##     family = stats::binomial, data = data)
