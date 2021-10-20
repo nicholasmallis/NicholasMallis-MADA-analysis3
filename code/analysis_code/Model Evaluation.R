@@ -213,5 +213,149 @@ nausea_runny_auc_test <- nausea_runny_aug %>%
 # The ROC-AUC of 0.476 indicates that the model is not good
 nausea_runny_auc_test
 
+#Gabriella Veytsel************************************************************************************
+#*****************************************************************************************************
+#Fit linear models to the continuous outcome: BodyTemp
 
+#Recipe() has two arguments: a formula and the data
+bodytemp_cont_rec <- recipe(BodyTemp ~ ., data = train_data) #all predictors
+bodytemp_cont_main_rec <- recipe(BodyTemp ~ RunnyNose, data = train_data) #main predictor
 
+#Build a model specification using the parsnip package
+lm_mod <- linear_reg() %>%
+  set_engine("lm")
+
+#Model workflow pairs a model and recipe together
+bodytemp_cont_workflow <- 
+  workflow() %>%
+  add_model(lm_mod) %>%
+  add_recipe(bodytemp_cont_rec)
+
+#Main predictor
+bodytemp_cont_main_workflow <- 
+  workflow() %>%
+  add_model(lm_mod) %>%
+  add_recipe(bodytemp_cont_main_rec)
+  
+bodytemp_cont_workflow
+bodytemp_cont_main_workflow
+
+#The last_fit() function will fit the model to the training data and 
+  #calculate the prediction on the test data
+bodytemp_cont_fit_alternative <- 
+  bodytemp_cont_workflow %>%
+  last_fit(split = data_split)
+
+#Main predictor
+bodytemp_cont_fit_main_alternative <- 
+  bodytemp_cont_main_workflow %>%
+  last_fit(split = data_split)
+
+#Extract the fitted model object and use tidy() to get a tidy tibble 
+  #of model coefficients
+bodytemp_cont_fit_alternative %>%
+  extract_fit_parsnip() %>%
+  tidy()  
+
+#Main predicotr
+bodytemp_cont_fit_main_alternative %>%
+  extract_fit_parsnip() %>%
+  tidy()  
+
+#Model Evaluaton:
+#Look at predictions and RMSE for my data
+#****************************************
+
+#Collect predictions
+test_results <- bodytemp_cont_fit_alternative %>%
+  collect_predictions()
+
+#Main predictor
+test_results_main <- bodytemp_cont_fit_main_alternative %>%
+  collect_predictions()
+
+test_results
+test_results_main
+
+#Collect metrics
+bodytemp_cont_fit_alternative %>%
+  collect_metrics() #rmse = 1.2, r-squared = 0.0266
+
+#Main predictor performs worse according to residual squared error and r-squared
+bodytemp_cont_fit_main_alternative %>%
+  collect_metrics() #rmse = 1.18, r-squared = 0.00689 
+
+#R-squared plot to visualize model performance on the test dataset
+#Does this scatterplot still make sense when there are binary precictors included?
+test_results %>%
+  ggplot(aes(x = .pred, y = BodyTemp)) + 
+  geom_abline(lty=2) + 
+  geom_point(color = "blue", alpha = 0.5) +
+  coord_obs_pred() +
+  labs(title = 'Linear Regression Results, all', 
+       x = "Predicted Body Temp",
+       y = "Actual Body Temp")
+
+#Apply prediction to the training data instead
+#The following steps are no longer necessary when using the above last_fit function:
+#***********************************************************************************
+
+#Models are the same, workflows are the same, just change fit()
+#Not using last_fit() this time, so it won't automatically calculate predictions on the test data
+#Now have to add predict() step
+
+bodytemp_cont_fit <- 
+  bodytemp_cont_workflow %>%
+  fit(data = train_data) 
+
+#Main predictor
+bodytemp_cont_fit_main <- 
+  bodytemp_cont_main_workflow %>%
+  fit(data = train_data) 
+
+#Extract the fitted model object and use tidy() to get a tidy tibble 
+#of model coefficients
+bodytemp_cont_fit %>%
+  extract_fit_parsnip() %>%
+  tidy()  
+
+#Main predicotr
+bodytemp_cont_fit_main %>%
+  extract_fit_parsnip() %>%
+  tidy()  
+
+#Use the trained workflow to predict with the *trained data* (isntead of the test data)
+#Returns predicted class
+predict(bodytemp_cont_fit, train_data)
+predict(bodytemp_cont_fit_main, train_data) #main predictor
+
+#Returns predicted class probabiliies
+#Compare the observed alue and the predicted value
+bodytemp_cont_aug <- augment(bodytemp_cont_fit, train_data) %>%
+  select(BodyTemp, .pred)
+bodytemp_cont_aug
+
+rmse(bodytemp_cont_aug, truth = BodyTemp, estimate = .pred) #1.11
+rsq(bodytemp_cont_aug, truth = BodyTemp,  estimate = .pred) #0.152
+
+#Main predictor
+bodytemp_cont_aug_main <- augment(bodytemp_cont_fit_main, train_data) %>%
+  select(BodyTemp, .pred)
+bodytemp_cont_aug_main
+
+rmse(bodytemp_cont_aug_main, truth = BodyTemp, estimate = .pred) #1.19
+rsq(bodytemp_cont_aug_main, truth = BodyTemp,  estimate = .pred) #0.0147
+
+#Goal is to minimize the root mean square error (RMSE) and maximize r-squared, so
+  #the model with only RunnyNose as the predictor performs worse than keeping all predictors
+
+#R-squared plot to visualize model performance on the training dataset
+#Does this scatterplot still make sense when there are binary precictors included?
+bodytemp_cont_aug %>%
+  ggplot(aes(x = .pred, y = BodyTemp)) + 
+  geom_abline(lty=2) + 
+  geom_point(color = "blue", alpha = 0.5) +
+  coord_obs_pred() +
+  labs(title = 'Linear Regression Results, Training, all', 
+       x = "Predicted Body Temp",
+       y = "Actual Body Temp")
