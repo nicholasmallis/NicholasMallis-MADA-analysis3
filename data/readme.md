@@ -1,19 +1,37 @@
-The folders inside this folder should contain all data at various stages.
+This folder contains the raw and processed data. The raw data comes from Dr. Brian McKay's paper, 
+"Virulence-mediated infectiousness and activity trade-offs and their impact on transmission potential of patients infected with influenza."
 
-You should place the raw data in the raw_data folder and do not edit it. Ever!
+Here is the list of variables in the processed dataset. Our main outcomes and main predictor are labled as such. With the exception of BodyTemp, all variables are categorical, each indicating the prescence of a certain symptom. In some variables, there are multiple levels of severity for these categorical variables. The Body Temp variable is continuous.
 
-Ideally, load the raw data into R and do all changes there with code, so everything is automatically reproducible and documented.
-
-Sometimes, you need to edit the files in the format you got. For instance, Excel files are sometimes so poorly formatted that it's close to impossible to read them into R, or the persons you got the data from used color to code some information, which of course won't import into R. In those cases, you might have to make modifications in a software other than R. 
-
-If you need to make edits in whatever format you got the data (e.g. Excel), make a copy and place those copies in a separate folder, AND ONLY EDIT THOSE COPIES. 
-
-Also, write down somewhere the edits you made. 
-
-Add as many sub-folders as suitable. If you only have a single processing step, one sub-folder for processed data is enough. If you have multiple stages of cleaning and processing, additional sub-folders might be useful. Adjust based on the complexity of your project.
-
-I suggest you save your processed and cleaned data as RDS or RDA/Rdata files. This preserves coding like factors, characters, numeric, etc. If you save as CSV, that information would get lost.
-
-See here for some suggestions on how to store your processed data:
-
-http://www.sthda.com/english/wiki/saving-data-into-r-data-format-rds-and-rdata
+SwollenLymphNodes 
+ChestCongestion   
+ChillsSweats      
+NasalCongestion   
+CoughYN           
+Sneeze            
+Fatigue         
+SubjectiveFever   
+Headache         
+Weakness          
+WeaknessYN       
+CoughIntensity    
+CoughYN2          
+Myalgia           
+MyalgiaYN        
+RunnyNose (main predictor)       
+AbPain            
+ChestPain        
+Diarrhea          
+EyePn             
+Insomnia          
+ItchyEye          
+Nausea (main outcome)           
+EarPn             
+Hearing          
+Pharyngitis      
+Breathless        
+ToothPn           
+Vision            
+Vomit             
+Wheeze            
+BodyTemp (main outcome)

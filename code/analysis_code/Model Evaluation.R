@@ -213,6 +213,8 @@ nausea_runny_auc_test <- nausea_runny_aug %>%
 # The ROC-AUC of 0.476 indicates that the model is not good
 nausea_runny_auc_test
 
+
+
 #Gabriella Veytsel************************************************************************************
 #*****************************************************************************************************
 #Fit linear models to the continuous outcome: BodyTemp

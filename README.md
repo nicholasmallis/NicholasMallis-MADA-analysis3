@@ -1,4 +1,4 @@
-
+The R script for this week's assessment can be found in the analysis_code folder and it's called Model Evaluation.R
 
 The code folder contains steps and results on processing, exploration, and analysis.  
 
@@ -46,4 +46,6 @@ BodyTemp (main outcome)
 The exploration.Rmd file explores the data with plots and tables that show descriptive statistics
 
 The Analysis.Rmd file runs linear and logistic models and explores model fits.
+
+The Model Evaluation.R script runs evaluations for both the simple and complex models for the categorical outcome. It also runs evaluations for both the simple and complex models for the continuous outcome.
 
