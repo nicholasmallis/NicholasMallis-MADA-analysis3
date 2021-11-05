@@ -404,27 +404,7 @@ final_fit %>%
 ```
 
 
-
-
 ###Model selection: Well since I can't seem to figure out how to get the LASSO or RF to run, I'm going with the Decision Tree Model as the best one. 
-```{r}
-
-last_fit()
-
-chosen <- 
-  final_wf %>%
-  last_fit(data_split) 
-
-
-```
-Once you have implemented above steps for the 3 models, you should a “best” fit for each one based on the tuning process. For each best model you should have performance, uncertainty around the performance measure, and some diagnostic plots. While for any real research project, you likely want to look deeper (e.g. at uncertainty in predictions instead of just overall performance), for now this is enough. Pick one of the three models. Explain why you pick it. There is no single answer that’s correct, I just want you to learn to reason/argue for why you are doing something: in this case justify why you are picking the model you do.
-
-Final evaluation
-Once you picked your final model, you are allowed to once – and only once – fit it to the test data and check how well it performs on that data. This gives you a somewhat honest estimate of how the model might perform for new, unseen data. You can do that using the last_fit() function applied to the model you end up choosing. For the final model applied to the test set, report performance and the diagnostic plots as above.
-
-And that concludes what is likely a fairly long exercise. The code itself is not that long, but it will take you time to cobble it together from the tidymodel tutorial and possibly other sources.
-
-
 
 
 

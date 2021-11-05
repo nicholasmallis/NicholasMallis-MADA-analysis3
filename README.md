@@ -1,4 +1,4 @@
-The R script for this week's assessment can be found in the analysis_code folder and it's called Model Evaluation.R
+The R script for this week's assessment can be found in the analysis_code folder and it's called Exercise11.Rmd. If you knit that rmd, you will see my results. The contents of this exercise include code, output, and figures for fitting the null models and Decision Tree. I unfortunately could not get my LASSO or Random Forest models to work. Everytime I try to run tune_grid(), R crashes. I tried multiple ways and seeked help, but nothing would work.I'm not sure if it's my computer. I have a seperate R script called LASSO and RF.R which includes include code, output, and figures for fitting the null models, LASSO, and Random Forests. While these do not work on my computer, maybe they will on yours?
 
 The code folder contains steps and results on processing, exploration, and analysis.  
 
