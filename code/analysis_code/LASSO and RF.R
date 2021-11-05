@@ -1,12 +1,16 @@
----
-title: "Exercise 11"
-author: "Nicholas Mallis"
-date: "11/2/2021"
-output: html_document
----
 
-Importing and Processing Data
-```{r message=FALSE, results =FALSE}
+
+# The following script first loads the processed data, performs  a few more necessary data
+# managment steps. Then we run the null model, followed by the LASS0
+# and the Random Forest.
+
+# The LASSO and Random Forest would not run on my computer. Everytime I tried to 
+# run the tune_grid() it would abort R. I tried multiple ways and seeked help, but nothing would work.
+# I'm not sure if it's my computer. 
+
+# I provided code below that might work on a different computer. As far as I can tell,
+# I have everything set up correct and it should be working. 
+
 #loading packages
 library(here) #for data loading/saving
 library(tidyverse)
@@ -18,8 +22,7 @@ library(rsample)
 library(rpart)
 library(glmnet)
 library(ranger)
-library(modeldata)
-library(rpart.plot)
+
 
 #first loading in processed data
 data_location <- here::here("data","processed_data","processeddata.rds")
@@ -73,15 +76,8 @@ table1
 # Looks like hearing and vision both don't have more than 50 yes
 data <- select(data, -c(Hearing, Vision))
 
-```
-
-###Taking a glimpse at new processed data
-```{r}
 glimpse(data)
-```
 
-###Setting up: Random Seed, Data Split, Cross Validation and Recipe/Workflow
-```{r}
 # Start by setting the random seed to 123.
 # This should make everything reproducible and
 # everyone should get the same results.
@@ -94,6 +90,10 @@ set.seed(123)
 # This allows for more balanced outcome values in the train and test sets.
 # See e.g., section 3 of the Get Started tutorial.
 
+library(tidymodels) # for the rsample package, along with the rest of tidymodels
+
+# Helper packages
+library(modeldata)  # for the cells data
 
 data_split <- initial_split(data, prop = .7, strata = BodyTemp)
 
@@ -126,6 +126,9 @@ folds
 bodytemp_cont_rec <- recipe(BodyTemp ~ ., data = train_data) %>%
   step_dummy(all_nominal_predictors()) #adding step_dummy
 
+
+
+
 #Build a model specification using the parsnip package
 lm_mod <- linear_reg() %>%
   set_engine("lm") 
@@ -137,10 +140,6 @@ bodytemp_cont_workflow <-
   add_recipe(bodytemp_cont_rec)
 
 
-```
-
-###Fitting the Null Model
-```{r}
 # Write some code to compute the performance of a null model, i.e. 
 # a “model” that doesn’t use any predictor information. For a 
 # continuous outcome and RMSE as our metric, a null model is one 
@@ -180,8 +179,6 @@ bodytmp_fit_null %>%
 
 
 
-
-
 # Obtaining Predictions
 predict(bodytmp_fit_null, train_data)
 
@@ -196,7 +193,7 @@ bodytmp_aug_null %>%
 rmse_train <- bodytmp_aug_null %>% 
   rmse(truth = BodyTemp, .pred)
 
-# RMSE 1.21
+# RMSE 1.19
 rmse_train
 
 
@@ -220,75 +217,51 @@ rmse_test <- bodytmp_aug_null %>%
 
 # RMSE 1.16
 rmse_test 
-```
-
-###Here we see that the RMSE on train data from the null model is 1.16
-```{r}
-# RMSE 1.21
-rmse_train
-```
 
 
 
-#Fitting a Tree
-```{r}
-# TREE 
+# NOW THE LASSO AND RANDOM FOREST
+
+
+
+# LASSO 
 
 # model specification
-tune_spec <- 
-  decision_tree(
-    cost_complexity = tune(),
-    tree_depth = tune()
-  ) %>% 
-  set_engine("rpart") %>% 
+tune_spec_LASSO <- 
+  linear_reg( penalty = tune(),mixture = 1) %>%
+  set_engine("glmnet") %>% 
   set_mode("regression")    # setting it to regression instead of classification
 
-tune_spec
+# grid
+lasso_reg_grid <- tibble(penalty = 10^seq(-3, 0, length.out = 30))
+
+# workflow definition
+lr_workflow_LASSO <- workflow() %>% 
+  add_model(tune_spec_LASSO) %>% 
+  add_recipe(bodytemp_cont_rec)
 
 
-# tuning grid specification
-tree_grid <- grid_regular(cost_complexity(),
-                          tree_depth(),
-                          levels = 5)
+# Tuning
+lr_LASSO <- 
+  lr_workflow_LASSO %>% 
+  tune_grid(folds,
+            control = control_grid(save_pred = TRUE),
+            grid = lasso_reg_grid, 
+            metrics = metric_set(rmse))
 
 
-tree_grid %>% 
-  count(tree_depth)
-
-
-# Tune a workflow() that bundles together a model
-# specification and a recipe or model preprocessor.
-# Here we use a workflow() with a straightforward formula; 
-# if this model required more involved data preprocessing, 
-# we could use add_recipe() instead of add_formula().
-
-
-tree_wf <- workflow() %>%
-  add_model(tune_spec) %>%
-  add_recipe(bodytemp_cont_rec) # using predefined recipe
-
-# tuning using cross-validation and the tune_grid() function
-tree_res <- 
-  tree_wf %>% 
-  tune_grid(resamples = folds, grid = tree_grid)
-
-tree_res %>% 
+# Collecting Metrics
+lr_LASSO %>% 
   collect_metrics()
 
 
-# Once you have done the tuning, you can take a look at some diagnostics
-#by sending your object returned from the tune_grid() function to autoplot(). 
-#For instance if you tuned the tree and saved the result as tree_tune_res,
-#you can run tree_tune_res %>% autoplot(). Depending on the model, the plot
-#will be different, but in general it shows you what happened during the tuning process.
-
 #plotting metrics
-tree_res %>% autoplot()
+lr_LASSO %>% autoplot()
 
 
 
 # Plotting Metrics again (looks a bit nicer)
-tree_res %>%
+lr_LASSO %>%
   collect_metrics() %>%
   mutate(tree_depth = factor(tree_depth)) %>%
   ggplot(aes(cost_complexity, mean, color = tree_depth)) +
@@ -305,96 +278,183 @@ tree_res %>%
 # this final workflow using the fit() function. Follow the examples in the tutorial.
 
 # selecting best
-best_tree <- tree_res %>%
-  select_best(tree_res, metric = "rsq")
+best_LASSO <- lr_LASSO %>%
+  select_best(lr_LASSO, metric = "rsq")
 
-best_tree
+best_LASSO
 
 
 
 # finalizing model
-final_wf <- 
-  tree_wf %>% 
-  finalize_workflow(best_tree)
+final_LASSO <- 
+  lr_workflow_LASSO %>% 
+  finalize_workflow(best_LASSO)
 
-final_wf
+final_LASSO
 
 # one more fit to the training data with 
 # this final workflow using the fit() function
 
-final_fit <- 
-  final_wf %>%
+final_fit_LASSO <- 
+  lr_workflow_LASSO %>%
   last_fit(data_split) 
 
 # RMSE= 1.23, not much different from the null
-final_fit %>%
+final_fit_LASSO %>%
   collect_metrics()
 
 #Collecting Predictions
-tree_pred <- final_fit %>%
+LASSO_pred <- final_fit_LASSO %>%
   collect_predictions() 
 
 
 
 # Make two plots, one that shows model predictions from the tuned model 
 # versus actual outcomes
-  
-ggplot(data=tree_pred, aes(x=.pred, y=BodyTemp)) + geom_point() + labs(title= "Plot of Model Predictions from Tuned Model vs Actual Outcomes", 
-       x= "Model Predictions", y= "Actual Outcomes") 
+
+ggplot(data=LASSO_pred, aes(x=BodyTemp, y=.pred)) + geom_point() +
+  labs(title= "Plot of LASSO Model Predictions from Tuned Model vs Actual Outcomes ", 
+       x= "Actual Outcomes", y= "Model Predictions") 
 
 #calculating residuals
-tree_pred$resid <- tree_pred$BodyTemp - tree_pred$.pred 
+LASSO_pred$resid <- LASSO_pred$BodyTemp - LASSO_pred$.pred 
 
 # one that plots residuals.
 # plotting residuals 
-ggplot(data=tree_pred, aes(x=resid, y=.pred)) + geom_point() +
-  labs(title= "Plot of Model Predictions from Tuned Model vs Actual Outcomes", 
-       x= "Residuals", y= "Model Predictions") 
+ggplot(data=LASSO_pred, aes(x=.pred, y=resid)) + geom_point() +
+  labs(title= "Plot of LASSO Model Residuals vs Predictions", 
+       x= "Model Predictions", y= "Residuals") 
 
 
-
-# Look at/print the model performance and compare it with the null model
-# (still only on training data). Here, we want the performance of the tuned, 
-# best-fitting model on the CV dataset (we are not yet touching the test data). 
-# You can get that for instance with the show_best() function, which gives you
-# the mean cross-validated performance for the best models. It also shows the
-# standard deviation for the performance. Compare that model performance with the null model
-
-```
-
-###Comparing RMSE to Null
-The tree model does not perform very well, and the model only predicts a few discrete
-outcome values. That’s also noticeable when we compare RMSE for the tree model(1.23) 
-and the null model (1.21). They are very similar.
-
-```{r}
-# RMSE= 1.23
-show_best(final_fit, metric= "rmse")
+# RMSE= ?????
+show_best(final_fit_LASSO, metric= "rmse")
 
 # Null Model. RMSE 1.21
-rmse_train
+rmse_test 
 
 
-```
 
 
-###Tree Plot
-```{r}
-final_fit %>%
-  extract_fit_engine() %>%
-  rpart.plot(roundint = FALSE)
 
 
-# estimate variable importance based on the model’s structure.
 
-library(vip)
 
-final_fit %>% 
-  extract_fit_parsnip() %>% 
-  vip()
-```
 
-```{r}
+# Random Forest
+
+# model specification
+
+cores <- parallel::detectCores()
+cores
+
+rf_mod <- 
+  rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>% 
+  set_engine("ranger", num.threads = cores) %>% 
+  set_mode("regression")
+
+
+# workflow
+rf_workflow <- 
+  workflow() %>% 
+  add_model(rf_mod) %>% 
+  add_recipe(bodytemp_cont_rec1)
+
+
+#grid
+
+rf_grid  <- expand.grid(mtry = c(3, 4, 5, 6),
+                        min_n = c(40,50,60), trees = c(500,1000)  )
+
+# Tuning 
+rf_res <- 
+  rf_workflow %>% 
+  tune_grid(folds,
+            grid = 25,
+            control = control_grid(verbose = TRUE, save_pred = TRUE))
+
+#collecting metrics
+rf_res %>% 
+  collect_metrics()
+
+
+#plotting metrics
+rf_res %>% autoplot()
+
+
+
+# Plotting Metrics again (looks a bit nicer)
+rf_res %>%
+  collect_metrics() %>%
+  mutate(tree_depth = factor(tree_depth)) %>%
+  ggplot(aes(cost_complexity, mean, color = tree_depth)) +
+  geom_line(size = 1.5, alpha = 0.6) +
+  geom_point(size = 2) +
+  facet_wrap(~ .metric, scales = "free", nrow = 2) +
+  scale_x_log10(labels = scales::label_number()) +
+  scale_color_viridis_d(option = "plasma", begin = .9, end = 0)
+
+
+# Next, you want to get the model that the tuning process has determined 
+# is the best. You can get the best-fit model with select_best() 
+# and finalize_workflow() and then do one more fit to the training data with 
+# this final workflow using the fit() function. Follow the examples in the tutorial.
+
+# selecting best
+best_rf <- rf_res %>%
+  select_best(rf_res, metric = "rsq")
+
+best_rf
+
+
+
+# finalizing model
+final_rf <- 
+  rf_workflow %>% 
+  finalize_workflow(best_rf)
+
+final_rf
+
+# one more fit to the training data with 
+# this final workflow using the fit() function
+
+final_fit_rf <- 
+  rf_workflow %>%
+  last_fit(data_split) 
+
+# RMSE= 1.23, not much different from the null
+final_fit_rf %>%
+  collect_metrics()
+
+#Collecting Predictions
+rf_pred <- final_fit_rf %>%
+  collect_predictions() 
+
+
+
+# Make two plots, one that shows model predictions from the tuned model 
+# versus actual outcomes
+
+ggplot(data=rf_pred, aes(x=BodyTemp, y=.pred)) + geom_point() +
+  labs(title= "Plot of Random Forest Model Predictions from Tuned Model vs Actual Outcomes ", 
+       x= "Actual Outcomes", y= "Model Predictions") 
+
+#calculating residuals
+LASSO_pred$resid <- LASSO_pred$BodyTemp - LASSO_pred$.pred 
+
+# one that plots residuals.
+# plotting residuals 
+ggplot(data=rf_pred, aes(x=.pred, y=resid)) + geom_point() +
+  labs(title= "Plot of Random Forest Model Residuals vs Predictions", 
+       x= "Model Predictions", y= "Residuals") 
+
+
+# RMSE= ?????
+show_best(final_fit_rf, metric= "rmse")
+
+# Null Model. RMSE 1.21
+rmse_test 
+
+
 
 
 

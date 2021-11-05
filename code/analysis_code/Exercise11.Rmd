@@ -4,8 +4,9 @@ author: "Nicholas Mallis"
 date: "11/2/2021"
 output: html_document
 ---
+Note: The contents of this exercise include code, output, and figures for fitting the null models and Decision Tree. I unfortunately could not get my LASSO or Random Forest models to work. Everytime I try to run tune_grid(), R crashes. I tried multiple ways and seeked help, but nothing would work.I'm not sure if it's my computer. I have a seperate R script called LASSO and RF.R which includes include code, output, and figures for fitting the null models, LASSO, and Random Forests. While these do not work on my computer, maybe they will on yours?
 
-Importing and Processing Data
+###Importing and Processing Data
 ```{r message=FALSE, results =FALSE}
 #loading packages
 library(here) #for data loading/saving
@@ -222,7 +223,7 @@ rmse_test <- bodytmp_aug_null %>%
 rmse_test 
 ```
 
-###Here we see that the RMSE on train data from the null model is 1.16
+###Here we see that the RMSE on train data from the null model is 1.21
 ```{r}
 # RMSE 1.21
 rmse_train
@@ -267,11 +268,18 @@ tree_wf <- workflow() %>%
   add_model(tune_spec) %>%
   add_recipe(bodytemp_cont_rec) # using predefined recipe
 
+```
+
+
+
+```{r}
 # tuning using cross-validation and the tune_grid() function
 tree_res <- 
   tree_wf %>% 
   tune_grid(resamples = folds, grid = tree_grid)
+```
 
+```{r}
 tree_res %>% 
   collect_metrics()
 
@@ -326,6 +334,7 @@ final_fit <-
   final_wf %>%
   last_fit(data_split) 
 
+
 # RMSE= 1.23, not much different from the null
 final_fit %>%
   collect_metrics()
@@ -347,9 +356,9 @@ tree_pred$resid <- tree_pred$BodyTemp - tree_pred$.pred
 
 # one that plots residuals.
 # plotting residuals 
-ggplot(data=tree_pred, aes(x=resid, y=.pred)) + geom_point() +
+ggplot(data=tree_pred, aes(x=.pred , y=resid)) + geom_point() +
   labs(title= "Plot of Model Predictions from Tuned Model vs Actual Outcomes", 
-       x= "Residuals", y= "Model Predictions") 
+       x= "Model Predictions", y= "Residuals") 
 
 
 
@@ -373,8 +382,6 @@ show_best(final_fit, metric= "rmse")
 
 # Null Model. RMSE 1.21
 rmse_train
-
-
 ```
 
 
@@ -384,9 +391,11 @@ final_fit %>%
   extract_fit_engine() %>%
   rpart.plot(roundint = FALSE)
 
+```
 
-# estimate variable importance based on the model’s structure.
 
+### Estimate variable importance based on the model’s structure.
+```{r}
 library(vip)
 
 final_fit %>% 
@@ -394,7 +403,27 @@ final_fit %>%
   vip()
 ```
 
+
+
+
+###Model selection: Well since I can't seem to figure out how to get the LASSO or RF to run, I'm going with the Decision Tree Model as the best one. 
 ```{r}
+
+last_fit()
+
+chosen <- 
+  final_wf %>%
+  last_fit(data_split) 
+
+
+```
+Once you have implemented above steps for the 3 models, you should a “best” fit for each one based on the tuning process. For each best model you should have performance, uncertainty around the performance measure, and some diagnostic plots. While for any real research project, you likely want to look deeper (e.g. at uncertainty in predictions instead of just overall performance), for now this is enough. Pick one of the three models. Explain why you pick it. There is no single answer that’s correct, I just want you to learn to reason/argue for why you are doing something: in this case justify why you are picking the model you do.
+
+Final evaluation
+Once you picked your final model, you are allowed to once – and only once – fit it to the test data and check how well it performs on that data. This gives you a somewhat honest estimate of how the model might perform for new, unseen data. You can do that using the last_fit() function applied to the model you end up choosing. For the final model applied to the test set, report performance and the diagnostic plots as above.
+
+And that concludes what is likely a fairly long exercise. The code itself is not that long, but it will take you time to cobble it together from the tidymodel tutorial and possibly other sources.
+
 
 
 
