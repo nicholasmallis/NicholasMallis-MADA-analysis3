@@ -1,0 +1,68 @@
+---
+title: "Exercise 11"
+author: "Nicholas Mallis"
+date: "11/2/2021"
+output: html_document
+---
+
+```{r}
+#loading packages
+library(here) #for data loading/saving
+library(tidyverse)
+library(recipes)
+library(tidymodels)
+library(workflowr) 
+library(parsnip)
+library(rsample)
+
+#first loading in processed data
+data_location <- here::here("data","processed_data","processeddata.rds")
+
+#load data. 
+data <- readRDS(data_location)
+
+#checking
+glimpse(data)
+
+
+# For those symptoms where you have both multiple levels and yes/no, 
+# remove all the yes/no versions. That should remove 4 variables.
+
+
+data <- select(data, -c(WeaknessYN, CoughYN, CoughYN2, MyalgiaYN))
+
+glimpse(data)
+
+# We also want to code the 3 ordinal/multi-level factors as ordered, 
+# so make sure they are coded as ordered factors. 
+# The order should of course be None/Mild/Moderate/Severe.
+
+as.factor(data$Weakness)
+table(data$Weakness)
+
+as.factor(data$CoughIntensity)
+table(data$CoughIntensity)
+
+as.factor(data$Myalgia)
+table(data$Myalgia)
+
+# But it’s often better to decide manually for each variable based on your scientific 
+# expertise if you want to remove it or not. We’ll take that approach here.
+# After looking at the data, we decide to remove those binary predictors that 
+# have <50 entries in one category (there are 2). Write code to remove them.
+
+library(table1) #loading the table 1 package
+
+table1 <- table1(~ . , data=data, overall="Total")
+table1
+
+# Looks like hearing and vision both don't have more than 50 yes
+data <- select(data, -c(Hearing, Vision))
+
+glimpse(data)
+
+```
+
+
+
+
