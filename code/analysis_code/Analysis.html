@@ -243,7 +243,7 @@ lm_fit &lt;-
 lm_fit</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  5ms 
+## Fit time:  6ms 
 ## 
 ## Call:
 ## stats::lm(formula = BodyTemp ~ RunnyNose, data = data)
@@ -356,37 +356,29 @@ lm_fit2 &lt;-
 lm_fit2</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  12ms 
+## Fit time:  10ms 
 ## 
 ## Call:
 ## stats::lm(formula = BodyTemp ~ . - SwollenLymphNodes - Wheeze, 
 ##     data = data)
 ## 
 ## Coefficients:
-##            (Intercept)      ChestCongestionYes         ChillsSweatsYes  
-##              97.921195                0.075007                0.208648  
-##     NasalCongestionYes              CoughYNYes               SneezeYes  
-##              -0.230014                0.313171               -0.368165  
-##             FatigueYes      SubjectiveFeverYes             HeadacheYes  
-##               0.253309                0.414417               -0.001289  
-##           WeaknessMild        WeaknessModerate          WeaknessSevere  
-##               0.020236                0.101806                0.382685  
-##          WeaknessYNYes      CoughIntensityMild  CoughIntensityModerate  
-##                     NA                0.095257               -0.048306  
-##   CoughIntensitySevere             CoughYN2Yes             MyalgiaMild  
-##              -0.022010                      NA                0.183000  
-##        MyalgiaModerate           MyalgiaSevere            MyalgiaYNYes  
-##              -0.007374               -0.120367                      NA  
-##           RunnyNoseYes               AbPainYes            ChestPainYes  
-##              -0.082592                0.038502                0.095165  
-##            DiarrheaYes                EyePnYes             InsomniaYes  
-##              -0.150186                0.145695               -0.007240  
-##            ItchyEyeYes               NauseaYes                EarPnYes  
-##              -0.010629               -0.024807                0.070132  
-##             HearingYes          PharyngitisYes           BreathlessYes  
-##               0.214778                0.269619                0.064422  
-##             ToothPnYes               VisionYes                VomitYes  
-##              -0.030090               -0.289410                0.153307</code></pre>
+##        (Intercept)  ChestCongestionYes     ChillsSweatsYes  NasalCongestionYes  
+##          98.289481            0.090488            0.198723           -0.236564  
+##          SneezeYes          FatigueYes  SubjectiveFeverYes         HeadacheYes  
+##          -0.377652            0.261334            0.415613           -0.008026  
+##         Weakness.L          Weakness.Q          Weakness.C    CoughIntensity.L  
+##           0.260476            0.131109            0.025478            0.185175  
+##   CoughIntensity.Q    CoughIntensity.C           Myalgia.L           Myalgia.Q  
+##          -0.170584            0.131620           -0.127985           -0.145555  
+##          Myalgia.C        RunnyNoseYes           AbPainYes        ChestPainYes  
+##           0.096334           -0.067614            0.021928            0.090996  
+##        DiarrheaYes            EyePnYes         InsomniaYes         ItchyEyeYes  
+##          -0.145627            0.142853           -0.006453           -0.007723  
+##          NauseaYes            EarPnYes      PharyngitisYes       BreathlessYes  
+##          -0.024566            0.087189            0.267819            0.062433  
+##         ToothPnYes            VomitYes  
+##          -0.043296            0.149671</code></pre>
 <pre class="r"><code>#saving table of all coefficients
 lm_fit_full_table &lt;- tidy(lm_fit2)
 
@@ -415,255 +407,213 @@ saveRDS(lm_fit_full_stats, file = summarytable_file5)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">97.9211947</td>
-<td align="right">0.3035906</td>
-<td align="right">322.5435431</td>
+<td align="right">98.2894813</td>
+<td align="right">0.2383490</td>
+<td align="right">412.3762702</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">ChestCongestionYes</td>
-<td align="right">0.0750070</td>
-<td align="right">0.0974162</td>
-<td align="right">0.7699651</td>
-<td align="right">0.4415815</td>
+<td align="right">0.0904876</td>
+<td align="right">0.0969783</td>
+<td align="right">0.9330705</td>
+<td align="right">0.3511053</td>
 </tr>
 <tr class="odd">
 <td align="left">ChillsSweatsYes</td>
-<td align="right">0.2086482</td>
-<td align="right">0.1273642</td>
-<td align="right">1.6382010</td>
-<td align="right">0.1018311</td>
+<td align="right">0.1987234</td>
+<td align="right">0.1270472</td>
+<td align="right">1.5641702</td>
+<td align="right">0.1182296</td>
 </tr>
 <tr class="even">
 <td align="left">NasalCongestionYes</td>
-<td align="right">-0.2300138</td>
-<td align="right">0.1136427</td>
-<td align="right">-2.0240092</td>
-<td align="right">0.0433502</td>
+<td align="right">-0.2365638</td>
+<td align="right">0.1132424</td>
+<td align="right">-2.0890037</td>
+<td align="right">0.0370680</td>
 </tr>
 <tr class="odd">
-<td align="left">CoughYNYes</td>
-<td align="right">0.3131707</td>
-<td align="right">0.2405523</td>
-<td align="right">1.3018823</td>
-<td align="right">0.1933867</td>
-</tr>
-<tr class="even">
 <td align="left">SneezeYes</td>
-<td align="right">-0.3681649</td>
-<td align="right">0.0980312</td>
-<td align="right">-3.7555884</td>
-<td align="right">0.0001874</td>
+<td align="right">-0.3776520</td>
+<td align="right">0.0978457</td>
+<td align="right">-3.8596680</td>
+<td align="right">0.0001240</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">FatigueYes</td>
-<td align="right">0.2533087</td>
-<td align="right">0.1605876</td>
-<td align="right">1.5773871</td>
-<td align="right">0.1151602</td>
+<td align="right">0.2613343</td>
+<td align="right">0.1605875</td>
+<td align="right">1.6273638</td>
+<td align="right">0.1041099</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">SubjectiveFeverYes</td>
-<td align="right">0.4144165</td>
-<td align="right">0.1027128</td>
-<td align="right">4.0347128</td>
-<td align="right">0.0000607</td>
+<td align="right">0.4156130</td>
+<td align="right">0.1021694</td>
+<td align="right">4.0678830</td>
+<td align="right">0.0000528</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">HeadacheYes</td>
-<td align="right">-0.0012885</td>
-<td align="right">0.1253270</td>
-<td align="right">-0.0102813</td>
-<td align="right">0.9917998</td>
-</tr>
-<tr class="even">
-<td align="left">WeaknessMild</td>
-<td align="right">0.0202360</td>
-<td align="right">0.1892620</td>
-<td align="right">0.1069206</td>
-<td align="right">0.9148828</td>
+<td align="right">-0.0080257</td>
+<td align="right">0.1252887</td>
+<td align="right">-0.0640576</td>
+<td align="right">0.9489426</td>
 </tr>
 <tr class="odd">
-<td align="left">WeaknessModerate</td>
-<td align="right">0.1018057</td>
-<td align="right">0.1980125</td>
-<td align="right">0.5141377</td>
-<td align="right">0.6073187</td>
+<td align="left">Weakness.L</td>
+<td align="right">0.2604760</td>
+<td align="right">0.1621236</td>
+<td align="right">1.6066508</td>
+<td align="right">0.1085820</td>
 </tr>
 <tr class="even">
-<td align="left">WeaknessSevere</td>
-<td align="right">0.3826849</td>
-<td align="right">0.2308643</td>
-<td align="right">1.6576186</td>
-<td align="right">0.0978444</td>
+<td align="left">Weakness.Q</td>
+<td align="right">0.1311088</td>
+<td align="right">0.1154737</td>
+<td align="right">1.1353999</td>
+<td align="right">0.2565964</td>
 </tr>
 <tr class="odd">
-<td align="left">WeaknessYNYes</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">Weakness.C</td>
+<td align="right">0.0254779</td>
+<td align="right">0.0819156</td>
+<td align="right">0.3110258</td>
+<td align="right">0.7558736</td>
 </tr>
 <tr class="even">
-<td align="left">CoughIntensityMild</td>
-<td align="right">0.0952567</td>
-<td align="right">0.2800915</td>
-<td align="right">0.3400913</td>
-<td align="right">0.7338902</td>
+<td align="left">CoughIntensity.L</td>
+<td align="right">0.1851749</td>
+<td align="right">0.1428124</td>
+<td align="right">1.2966307</td>
+<td align="right">0.1951856</td>
 </tr>
 <tr class="odd">
-<td align="left">CoughIntensityModerate</td>
-<td align="right">-0.0483064</td>
-<td align="right">0.3020070</td>
-<td align="right">-0.1599513</td>
-<td align="right">0.8729658</td>
+<td align="left">CoughIntensity.Q</td>
+<td align="right">-0.1705838</td>
+<td align="right">0.1120502</td>
+<td align="right">-1.5223871</td>
+<td align="right">0.1283637</td>
 </tr>
 <tr class="even">
-<td align="left">CoughIntensitySevere</td>
-<td align="right">-0.0220104</td>
-<td align="right">0.3128189</td>
-<td align="right">-0.0703614</td>
-<td align="right">0.9439262</td>
+<td align="left">CoughIntensity.C</td>
+<td align="right">0.1316203</td>
+<td align="right">0.0873641</td>
+<td align="right">1.5065717</td>
+<td align="right">0.1323716</td>
 </tr>
 <tr class="odd">
-<td align="left">CoughYN2Yes</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">Myalgia.L</td>
+<td align="right">-0.1279847</td>
+<td align="right">0.1469963</td>
+<td align="right">-0.8706662</td>
+<td align="right">0.3842349</td>
 </tr>
 <tr class="even">
-<td align="left">MyalgiaMild</td>
-<td align="right">0.1829998</td>
-<td align="right">0.1603247</td>
-<td align="right">1.1414323</td>
-<td align="right">0.2540821</td>
+<td align="left">Myalgia.Q</td>
+<td align="right">-0.1455552</td>
+<td align="right">0.1052010</td>
+<td align="right">-1.3835914</td>
+<td align="right">0.1669247</td>
 </tr>
 <tr class="odd">
-<td align="left">MyalgiaModerate</td>
-<td align="right">-0.0073741</td>
-<td align="right">0.1677040</td>
-<td align="right">-0.0439710</td>
-<td align="right">0.9649401</td>
-</tr>
-<tr class="even">
-<td align="left">MyalgiaSevere</td>
-<td align="right">-0.1203668</td>
-<td align="right">0.2077019</td>
-<td align="right">-0.5795174</td>
-<td align="right">0.5624274</td>
-</tr>
-<tr class="odd">
-<td align="left">MyalgiaYNYes</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">Myalgia.C</td>
+<td align="right">0.0963340</td>
+<td align="right">0.0805044</td>
+<td align="right">1.1966304</td>
+<td align="right">0.2318558</td>
 </tr>
 <tr class="even">
 <td align="left">RunnyNoseYes</td>
-<td align="right">-0.0825916</td>
-<td align="right">0.1085066</td>
-<td align="right">-0.7611671</td>
-<td align="right">0.4468147</td>
+<td align="right">-0.0676145</td>
+<td align="right">0.1081778</td>
+<td align="right">-0.6250312</td>
+<td align="right">0.5321543</td>
 </tr>
 <tr class="odd">
 <td align="left">AbPainYes</td>
-<td align="right">0.0385019</td>
-<td align="right">0.1403275</td>
-<td align="right">0.2743715</td>
-<td align="right">0.7838804</td>
+<td align="right">0.0219283</td>
+<td align="right">0.1400241</td>
+<td align="right">0.1566037</td>
+<td align="right">0.8756023</td>
 </tr>
 <tr class="even">
 <td align="left">ChestPainYes</td>
-<td align="right">0.0951649</td>
-<td align="right">0.1065806</td>
-<td align="right">0.8928912</td>
-<td align="right">0.3722236</td>
+<td align="right">0.0909959</td>
+<td align="right">0.1062000</td>
+<td align="right">0.8568354</td>
+<td align="right">0.3918291</td>
 </tr>
 <tr class="odd">
 <td align="left">DiarrheaYes</td>
-<td align="right">-0.1501858</td>
-<td align="right">0.1295776</td>
-<td align="right">-1.1590415</td>
-<td align="right">0.2468362</td>
+<td align="right">-0.1456270</td>
+<td align="right">0.1294966</td>
+<td align="right">-1.1245621</td>
+<td align="right">0.2611601</td>
 </tr>
 <tr class="even">
 <td align="left">EyePnYes</td>
-<td align="right">0.1456952</td>
-<td align="right">0.1295315</td>
-<td align="right">1.1247855</td>
-<td align="right">0.2610671</td>
+<td align="right">0.1428531</td>
+<td align="right">0.1292539</td>
+<td align="right">1.1052133</td>
+<td align="right">0.2694469</td>
 </tr>
 <tr class="odd">
 <td align="left">InsomniaYes</td>
-<td align="right">-0.0072396</td>
-<td align="right">0.0908882</td>
-<td align="right">-0.0796540</td>
-<td align="right">0.9365353</td>
+<td align="right">-0.0064532</td>
+<td align="right">0.0908777</td>
+<td align="right">-0.0710102</td>
+<td align="right">0.9434099</td>
 </tr>
 <tr class="even">
 <td align="left">ItchyEyeYes</td>
-<td align="right">-0.0106292</td>
-<td align="right">0.1101003</td>
-<td align="right">-0.0965412</td>
-<td align="right">0.9231185</td>
+<td align="right">-0.0077230</td>
+<td align="right">0.1098313</td>
+<td align="right">-0.0703165</td>
+<td align="right">0.9439618</td>
 </tr>
 <tr class="odd">
 <td align="left">NauseaYes</td>
-<td align="right">-0.0248071</td>
-<td align="right">0.1019862</td>
-<td align="right">-0.2432397</td>
-<td align="right">0.8078913</td>
+<td align="right">-0.0245658</td>
+<td align="right">0.1019988</td>
+<td align="right">-0.2408441</td>
+<td align="right">0.8097465</td>
 </tr>
 <tr class="even">
 <td align="left">EarPnYes</td>
-<td align="right">0.0701323</td>
-<td align="right">0.1131856</td>
-<td align="right">0.6196218</td>
-<td align="right">0.5357093</td>
+<td align="right">0.0871890</td>
+<td align="right">0.1122521</td>
+<td align="right">0.7767250</td>
+<td align="right">0.4375834</td>
 </tr>
 <tr class="odd">
-<td align="left">HearingYes</td>
-<td align="right">0.2147781</td>
-<td align="right">0.2206789</td>
-<td align="right">0.9732608</td>
-<td align="right">0.3307613</td>
-</tr>
-<tr class="even">
 <td align="left">PharyngitisYes</td>
-<td align="right">0.2696191</td>
-<td align="right">0.1186384</td>
-<td align="right">2.2726121</td>
-<td align="right">0.0233532</td>
-</tr>
-<tr class="odd">
-<td align="left">BreathlessYes</td>
-<td align="right">0.0644216</td>
-<td align="right">0.0962653</td>
-<td align="right">0.6692088</td>
-<td align="right">0.5035839</td>
+<td align="right">0.2678187</td>
+<td align="right">0.1183938</td>
+<td align="right">2.2621000</td>
+<td align="right">0.0239971</td>
 </tr>
 <tr class="even">
-<td align="left">ToothPnYes</td>
-<td align="right">-0.0300896</td>
-<td align="right">0.1135909</td>
-<td align="right">-0.2648944</td>
-<td align="right">0.7911691</td>
+<td align="left">BreathlessYes</td>
+<td align="right">0.0624325</td>
+<td align="right">0.0959177</td>
+<td align="right">0.6508972</td>
+<td align="right">0.5153264</td>
 </tr>
 <tr class="odd">
-<td align="left">VisionYes</td>
-<td align="right">-0.2894096</td>
-<td align="right">0.2769163</td>
-<td align="right">-1.0451158</td>
-<td align="right">0.2963318</td>
+<td align="left">ToothPnYes</td>
+<td align="right">-0.0432965</td>
+<td align="right">0.1134105</td>
+<td align="right">-0.3817677</td>
+<td align="right">0.7027495</td>
 </tr>
 <tr class="even">
 <td align="left">VomitYes</td>
-<td align="right">0.1533073</td>
-<td align="right">0.1511260</td>
-<td align="right">1.0144332</td>
-<td align="right">0.3107281</td>
+<td align="right">0.1496706</td>
+<td align="right">0.1510626</td>
+<td align="right">0.9907849</td>
+<td align="right">0.3221330</td>
 </tr>
 </tbody>
 </table>
@@ -679,7 +629,7 @@ saveRDS(lm_fit_full_stats, file = summarytable_file5)</code></pre>
 <col width="3%"></col>
 <col width="9%"></col>
 <col width="8%"></col>
-<col width="8%"></col>
+<col width="7%"></col>
 <col width="8%"></col>
 <col width="10%"></col>
 <col width="5%"></col>
@@ -702,17 +652,17 @@ saveRDS(lm_fit_full_stats, file = summarytable_file5)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">0.1243977</td>
-<td align="right">0.0841979</td>
-<td align="right">1.144877</td>
-<td align="right">3.094485</td>
+<td align="right">0.1199842</td>
+<td align="right">0.0835264</td>
+<td align="right">1.145296</td>
+<td align="right">3.291043</td>
 <td align="right">0</td>
-<td align="right">32</td>
-<td align="right">-1117.707</td>
-<td align="right">2303.415</td>
-<td align="right">2459.578</td>
-<td align="right">913.5878</td>
-<td align="right">697</td>
+<td align="right">29</td>
+<td align="right">-1119.543</td>
+<td align="right">2301.085</td>
+<td align="right">2443.47</td>
+<td align="right">918.1929</td>
+<td align="right">700</td>
 <td align="right">730</td>
 </tr>
 </tbody>
@@ -728,7 +678,7 @@ tidy(anova(lm_fit$fit, lm_fit2$fit))</code></pre>
 ##   res.df   rss    df sumsq statistic      p.value
 ##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
 ## 1    728 1031.    NA   NA      NA    NA          
-## 2    697  914.    31  117.      2.88  0.000000506</code></pre>
+## 2    700  918.    28  112.      3.06  0.000000304</code></pre>
 <pre class="r"><code>summarytable_file6 = here(&quot;results&quot;, &quot;comparing_lm_anova.rds&quot;)
 saveRDS(comparing_lm_anova, file = summarytable_file6)</code></pre>
 <p>Now I display the saved file for an improved aesthetic.</p>
@@ -754,12 +704,12 @@ saveRDS(comparing_lm_anova, file = summarytable_file6)</code></pre>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
-<td align="right">697</td>
-<td align="right">913.5878</td>
-<td align="right">31</td>
-<td align="right">116.9471</td>
-<td align="right">2.878128</td>
-<td align="right">5e-07</td>
+<td align="right">700</td>
+<td align="right">918.1929</td>
+<td align="right">28</td>
+<td align="right">112.342</td>
+<td align="right">3.058781</td>
+<td align="right">3e-07</td>
 </tr>
 </tbody>
 </table>
@@ -777,7 +727,7 @@ log_fit &lt;-
 log_fit</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  10ms 
+## Fit time:  5ms 
 ## 
 ## Call:  stats::glm(formula = Nausea ~ RunnyNose, family = stats::binomial, 
 ##     data = data)
@@ -869,40 +819,32 @@ log_fit2 &lt;-
 log_fit2</code></pre>
 <pre><code>## parsnip model object
 ## 
-## Fit time:  17ms 
+## Fit time:  13ms 
 ## 
 ## Call:  stats::glm(formula = Nausea ~ . - SwollenLymphNodes - Wheeze, 
 ##     family = stats::binomial, data = data)
 ## 
 ## Coefficients:
-##            (Intercept)      ChestCongestionYes         ChillsSweatsYes  
-##               -0.44966                 0.25203                 0.27812  
-##     NasalCongestionYes              CoughYNYes               SneezeYes  
-##                0.38549                -0.15446                 0.16102  
-##             FatigueYes      SubjectiveFeverYes             HeadacheYes  
-##                0.19525                 0.21851                 0.32022  
-##           WeaknessMild        WeaknessModerate          WeaknessSevere  
-##               -0.12225                 0.30230                 0.81938  
-##          WeaknessYNYes      CoughIntensityMild  CoughIntensityModerate  
-##                     NA                -0.20805                -0.37918  
-##   CoughIntensitySevere             CoughYN2Yes             MyalgiaMild  
-##               -0.98699                      NA                 0.04239  
-##        MyalgiaModerate           MyalgiaSevere            MyalgiaYNYes  
-##                0.24512                 0.16104                      NA  
-##           RunnyNoseYes               AbPainYes            ChestPainYes  
-##                0.05264                 0.94127                 0.03388  
-##            DiarrheaYes                EyePnYes             InsomniaYes  
-##                1.06310                -0.32769                 0.07641  
-##            ItchyEyeYes                EarPnYes              HearingYes  
-##               -0.05335                -0.23809                 0.22864  
-##         PharyngitisYes           BreathlessYes              ToothPnYes  
-##                0.19388                 0.42679                 0.48424  
-##              VisionYes                VomitYes                BodyTemp  
-##                0.03894                 2.41363                -0.02376  
+##        (Intercept)  ChestCongestionYes     ChillsSweatsYes  NasalCongestionYes  
+##           -0.55533             0.24327             0.29102             0.39597  
+##          SneezeYes          FatigueYes  SubjectiveFeverYes         HeadacheYes  
+##            0.15451             0.19830             0.20265             0.32505  
+##         Weakness.L          Weakness.Q          Weakness.C    CoughIntensity.L  
+##            0.65140             0.31658            -0.10505            -0.80362  
+##   CoughIntensity.Q    CoughIntensity.C           Myalgia.L           Myalgia.Q  
+##           -0.13191            -0.12758             0.15506            -0.05884  
+##          Myalgia.C        RunnyNoseYes           AbPainYes        ChestPainYes  
+##           -0.09715             0.05510             0.94186             0.03436  
+##        DiarrheaYes            EyePnYes         InsomniaYes         ItchyEyeYes  
+##            1.06332            -0.31520             0.07645            -0.04829  
+##           EarPnYes      PharyngitisYes       BreathlessYes          ToothPnYes  
+##           -0.22568             0.20810             0.43366             0.48306  
+##           VomitYes            BodyTemp  
+##            2.40936            -0.02431  
 ## 
-## Degrees of Freedom: 729 Total (i.e. Null);  697 Residual
+## Degrees of Freedom: 729 Total (i.e. Null);  700 Residual
 ## Null Deviance:       944.7 
-## Residual Deviance: 754.8     AIC: 820.8</code></pre>
+## Residual Deviance: 755.2     AIC: 815.2</code></pre>
 <pre class="r"><code>log_fit_full_table &lt;- tidy(log_fit2)
 
 summarytable_file9 = here(&quot;results&quot;, &quot;log_fit_full_table.rds&quot;)
@@ -926,255 +868,213 @@ saveRDS(log_fit_full_stats, file = summarytable_file10)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="left">(Intercept)</td>
-<td align="right">-0.4496590</td>
-<td align="right">7.8073714</td>
-<td align="right">-0.0575942</td>
-<td align="right">0.9540719</td>
+<td align="right">-0.5553275</td>
+<td align="right">7.8153089</td>
+<td align="right">-0.0710564</td>
+<td align="right">0.9433529</td>
 </tr>
 <tr class="even">
 <td align="left">ChestCongestionYes</td>
-<td align="right">0.2520280</td>
-<td align="right">0.2115690</td>
-<td align="right">1.1912332</td>
-<td align="right">0.2335621</td>
+<td align="right">0.2432739</td>
+<td align="right">0.2094147</td>
+<td align="right">1.1616852</td>
+<td align="right">0.2453634</td>
 </tr>
 <tr class="odd">
 <td align="left">ChillsSweatsYes</td>
-<td align="right">0.2781182</td>
-<td align="right">0.2869041</td>
-<td align="right">0.9693767</td>
-<td align="right">0.3323573</td>
+<td align="right">0.2910160</td>
+<td align="right">0.2859557</td>
+<td align="right">1.0176958</td>
+<td align="right">0.3088226</td>
 </tr>
 <tr class="even">
 <td align="left">NasalCongestionYes</td>
-<td align="right">0.3854878</td>
-<td align="right">0.2517361</td>
-<td align="right">1.5313167</td>
-<td align="right">0.1256911</td>
+<td align="right">0.3959720</td>
+<td align="right">0.2503094</td>
+<td align="right">1.5819307</td>
+<td align="right">0.1136654</td>
 </tr>
 <tr class="odd">
-<td align="left">CoughYNYes</td>
-<td align="right">-0.1544648</td>
-<td align="right">0.5177460</td>
-<td align="right">-0.2983409</td>
-<td align="right">0.7654430</td>
-</tr>
-<tr class="even">
 <td align="left">SneezeYes</td>
-<td align="right">0.1610238</td>
-<td align="right">0.2092712</td>
-<td align="right">0.7694501</td>
-<td align="right">0.4416262</td>
+<td align="right">0.1545068</td>
+<td align="right">0.2087549</td>
+<td align="right">0.7401349</td>
+<td align="right">0.4592182</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">FatigueYes</td>
-<td align="right">0.1952450</td>
-<td align="right">0.3714441</td>
-<td align="right">0.5256377</td>
-<td align="right">0.5991400</td>
+<td align="right">0.1983005</td>
+<td align="right">0.3711360</td>
+<td align="right">0.5343068</td>
+<td align="right">0.5931293</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">SubjectiveFeverYes</td>
-<td align="right">0.2185141</td>
-<td align="right">0.2219166</td>
-<td align="right">0.9846676</td>
-<td align="right">0.3247874</td>
+<td align="right">0.2026473</td>
+<td align="right">0.2199752</td>
+<td align="right">0.9212279</td>
+<td align="right">0.3569314</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">HeadacheYes</td>
-<td align="right">0.3202226</td>
-<td align="right">0.2855391</td>
-<td align="right">1.1214666</td>
-<td align="right">0.2620893</td>
-</tr>
-<tr class="even">
-<td align="left">WeaknessMild</td>
-<td align="right">-0.1222534</td>
-<td align="right">0.4463510</td>
-<td align="right">-0.2738952</td>
-<td align="right">0.7841651</td>
+<td align="right">0.3250487</td>
+<td align="right">0.2854688</td>
+<td align="right">1.1386486</td>
+<td align="right">0.2548498</td>
 </tr>
 <tr class="odd">
-<td align="left">WeaknessModerate</td>
-<td align="right">0.3022987</td>
-<td align="right">0.4554100</td>
-<td align="right">0.6637945</td>
-<td align="right">0.5068218</td>
+<td align="left">Weakness.L</td>
+<td align="right">0.6514048</td>
+<td align="right">0.3568834</td>
+<td align="right">1.8252595</td>
+<td align="right">0.0679619</td>
 </tr>
 <tr class="even">
-<td align="left">WeaknessSevere</td>
-<td align="right">0.8193791</td>
-<td align="right">0.5107798</td>
-<td align="right">1.6041731</td>
-<td align="right">0.1086759</td>
+<td align="left">Weakness.Q</td>
+<td align="right">0.3165758</td>
+<td align="right">0.2579560</td>
+<td align="right">1.2272471</td>
+<td align="right">0.2197297</td>
 </tr>
 <tr class="odd">
-<td align="left">WeaknessYNYes</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">Weakness.C</td>
+<td align="right">-0.1050525</td>
+<td align="right">0.1821895</td>
+<td align="right">-0.5766113</td>
+<td align="right">0.5642020</td>
 </tr>
 <tr class="even">
-<td align="left">CoughIntensityMild</td>
-<td align="right">-0.2080545</td>
-<td align="right">0.5833316</td>
-<td align="right">-0.3566659</td>
-<td align="right">0.7213420</td>
+<td align="left">CoughIntensity.L</td>
+<td align="right">-0.8036217</td>
+<td align="right">0.2994401</td>
+<td align="right">-2.6837482</td>
+<td align="right">0.0072802</td>
 </tr>
 <tr class="odd">
-<td align="left">CoughIntensityModerate</td>
-<td align="right">-0.3791835</td>
-<td align="right">0.6309282</td>
-<td align="right">-0.6009932</td>
-<td align="right">0.5478445</td>
+<td align="left">CoughIntensity.Q</td>
+<td align="right">-0.1319126</td>
+<td align="right">0.2308283</td>
+<td align="right">-0.5714749</td>
+<td align="right">0.5676778</td>
 </tr>
 <tr class="even">
-<td align="left">CoughIntensitySevere</td>
-<td align="right">-0.9869930</td>
-<td align="right">0.6557281</td>
-<td align="right">-1.5051863</td>
-<td align="right">0.1322762</td>
+<td align="left">CoughIntensity.C</td>
+<td align="right">-0.1275750</td>
+<td align="right">0.1816199</td>
+<td align="right">-0.7024289</td>
+<td align="right">0.4824117</td>
 </tr>
 <tr class="odd">
-<td align="left">CoughYN2Yes</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">Myalgia.L</td>
+<td align="right">0.1550586</td>
+<td align="right">0.3134828</td>
+<td align="right">0.4946319</td>
+<td align="right">0.6208600</td>
 </tr>
 <tr class="even">
-<td align="left">MyalgiaMild</td>
-<td align="right">0.0423905</td>
-<td align="right">0.3672100</td>
-<td align="right">0.1154393</td>
-<td align="right">0.9080969</td>
+<td align="left">Myalgia.Q</td>
+<td align="right">-0.0588441</td>
+<td align="right">0.2287706</td>
+<td align="right">-0.2572188</td>
+<td align="right">0.7970099</td>
 </tr>
 <tr class="odd">
-<td align="left">MyalgiaModerate</td>
-<td align="right">0.2451193</td>
-<td align="right">0.3732072</td>
-<td align="right">0.6567915</td>
-<td align="right">0.5113150</td>
-</tr>
-<tr class="even">
-<td align="left">MyalgiaSevere</td>
-<td align="right">0.1610422</td>
-<td align="right">0.4442290</td>
-<td align="right">0.3625207</td>
-<td align="right">0.7169630</td>
-</tr>
-<tr class="odd">
-<td align="left">MyalgiaYNYes</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
-<td align="right">NA</td>
+<td align="left">Myalgia.C</td>
+<td align="right">-0.0971484</td>
+<td align="right">0.1759147</td>
+<td align="right">-0.5522471</td>
+<td align="right">0.5807791</td>
 </tr>
 <tr class="even">
 <td align="left">RunnyNoseYes</td>
-<td align="right">0.0526444</td>
-<td align="right">0.2313176</td>
-<td align="right">0.2275849</td>
-<td align="right">0.8199690</td>
+<td align="right">0.0551042</td>
+<td align="right">0.2300359</td>
+<td align="right">0.2395460</td>
+<td align="right">0.8106823</td>
 </tr>
 <tr class="odd">
 <td align="left">AbPainYes</td>
-<td align="right">0.9412742</td>
-<td align="right">0.2804166</td>
-<td align="right">3.3566997</td>
-<td align="right">0.0007888</td>
+<td align="right">0.9418584</td>
+<td align="right">0.2799456</td>
+<td align="right">3.3644338</td>
+<td align="right">0.0007670</td>
 </tr>
 <tr class="even">
 <td align="left">ChestPainYes</td>
-<td align="right">0.0338754</td>
-<td align="right">0.2256197</td>
-<td align="right">0.1501440</td>
-<td align="right">0.8806510</td>
+<td align="right">0.0343628</td>
+<td align="right">0.2246580</td>
+<td align="right">0.1529560</td>
+<td align="right">0.8784330</td>
 </tr>
 <tr class="odd">
 <td align="left">DiarrheaYes</td>
-<td align="right">1.0631023</td>
-<td align="right">0.2574366</td>
-<td align="right">4.1295700</td>
-<td align="right">0.0000363</td>
+<td align="right">1.0633215</td>
+<td align="right">0.2572543</td>
+<td align="right">4.1333476</td>
+<td align="right">0.0000358</td>
 </tr>
 <tr class="even">
 <td align="left">EyePnYes</td>
-<td align="right">-0.3276873</td>
-<td align="right">0.2752053</td>
-<td align="right">-1.1907014</td>
-<td align="right">0.2337708</td>
+<td align="right">-0.3152024</td>
+<td align="right">0.2740321</td>
+<td align="right">-1.1502387</td>
+<td align="right">0.2500456</td>
 </tr>
 <tr class="odd">
 <td align="left">InsomniaYes</td>
-<td align="right">0.0764124</td>
-<td align="right">0.1928862</td>
-<td align="right">0.3961526</td>
-<td align="right">0.6919925</td>
+<td align="right">0.0764545</td>
+<td align="right">0.1928241</td>
+<td align="right">0.3964989</td>
+<td align="right">0.6917371</td>
 </tr>
 <tr class="even">
 <td align="left">ItchyEyeYes</td>
-<td align="right">-0.0533497</td>
-<td align="right">0.2301888</td>
-<td align="right">-0.2317648</td>
-<td align="right">0.8167207</td>
+<td align="right">-0.0482943</td>
+<td align="right">0.2296263</td>
+<td align="right">-0.2103169</td>
+<td align="right">0.8334203</td>
 </tr>
 <tr class="odd">
 <td align="left">EarPnYes</td>
-<td align="right">-0.2380894</td>
-<td align="right">0.2368916</td>
-<td align="right">-1.0050565</td>
-<td align="right">0.3148697</td>
+<td align="right">-0.2256843</td>
+<td align="right">0.2346472</td>
+<td align="right">-0.9618024</td>
+<td align="right">0.3361489</td>
 </tr>
 <tr class="even">
-<td align="left">HearingYes</td>
-<td align="right">0.2286358</td>
-<td align="right">0.4434798</td>
-<td align="right">0.5155495</td>
-<td align="right">0.6061691</td>
-</tr>
-<tr class="odd">
 <td align="left">PharyngitisYes</td>
-<td align="right">0.1938845</td>
-<td align="right">0.2583421</td>
-<td align="right">0.7504950</td>
-<td align="right">0.4529567</td>
-</tr>
-<tr class="even">
-<td align="left">BreathlessYes</td>
-<td align="right">0.4267920</td>
-<td align="right">0.1994439</td>
-<td align="right">2.1399099</td>
-<td align="right">0.0323620</td>
+<td align="right">0.2081013</td>
+<td align="right">0.2570364</td>
+<td align="right">0.8096182</td>
+<td align="right">0.4181596</td>
 </tr>
 <tr class="odd">
-<td align="left">ToothPnYes</td>
-<td align="right">0.4842393</td>
-<td align="right">0.2279403</td>
-<td align="right">2.1244128</td>
-<td align="right">0.0336356</td>
+<td align="left">BreathlessYes</td>
+<td align="right">0.4336604</td>
+<td align="right">0.1983859</td>
+<td align="right">2.1859439</td>
+<td align="right">0.0288197</td>
 </tr>
 <tr class="even">
-<td align="left">VisionYes</td>
-<td align="right">0.0389403</td>
-<td align="right">0.5413350</td>
-<td align="right">0.0719339</td>
-<td align="right">0.9426545</td>
+<td align="left">ToothPnYes</td>
+<td align="right">0.4830566</td>
+<td align="right">0.2272528</td>
+<td align="right">2.1256350</td>
+<td align="right">0.0335337</td>
 </tr>
 <tr class="odd">
 <td align="left">VomitYes</td>
-<td align="right">2.4136341</td>
-<td align="right">0.3471504</td>
-<td align="right">6.9527041</td>
+<td align="right">2.4093591</td>
+<td align="right">0.3470922</td>
+<td align="right">6.9415535</td>
 <td align="right">0.0000000</td>
 </tr>
 <tr class="even">
 <td align="left">BodyTemp</td>
-<td align="right">-0.0237578</td>
-<td align="right">0.0796016</td>
-<td align="right">-0.2984591</td>
-<td align="right">0.7653528</td>
+<td align="right">-0.0243092</td>
+<td align="right">0.0793813</td>
+<td align="right">-0.3062337</td>
+<td align="right">0.7594267</td>
 </tr>
 </tbody>
 </table>
@@ -1196,11 +1096,11 @@ saveRDS(log_fit_full_stats, file = summarytable_file10)</code></pre>
 <tr class="odd">
 <td align="right">944.6515</td>
 <td align="right">729</td>
-<td align="right">-377.4177</td>
-<td align="right">820.8354</td>
-<td align="right">972.4059</td>
-<td align="right">754.8354</td>
-<td align="right">697</td>
+<td align="right">-377.6031</td>
+<td align="right">815.2062</td>
+<td align="right">952.9976</td>
+<td align="right">755.2062</td>
+<td align="right">700</td>
 <td align="right">730</td>
 </tr>
 </tbody>
@@ -1234,10 +1134,10 @@ saveRDS(anova_log, file = summarytable_file11)</code></pre>
 <td align="right">NA</td>
 </tr>
 <tr class="even">
-<td align="right">697</td>
-<td align="right">754.8354</td>
-<td align="right">31</td>
-<td align="right">189.7307</td>
+<td align="right">700</td>
+<td align="right">755.2062</td>
+<td align="right">28</td>
+<td align="right">189.3598</td>
 </tr>
 </tbody>
 </table>
