@@ -28,7 +28,7 @@ Descriptive Statistics: Tabling the Main Outcome(s) and Covariates using the tab
 library(table1) #loading the table 1 package
 
 
-table1 <- table1(~ Nausea + BodyTemp + RunnyNose + SwollenLymphNodes + ChestCongestion + Weakness +  NasalCongestion + CoughYN + Sneeze + Fatigue + SubjectiveFever + Headache , data=mydata, overall="Total")
+table1 <- table1(~ Nausea + BodyTemp + RunnyNose + SwollenLymphNodes + ChestCongestion + Weakness +  NasalCongestion + Sneeze + Fatigue + SubjectiveFever + Headache , data=mydata, overall="Total")
 
 table1
 ```
