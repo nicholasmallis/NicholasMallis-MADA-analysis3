@@ -6,7 +6,7 @@ output: html_document
 ---
 
 
-Note: The contents of this exercise include code, output, and figures for fitting the null models and Decision Tree. I unfortunately could not get my LASSO or Random Forest models to work. Everytime I try to run tune_grid(), R crashes. I tried multiple ways and seeked help, but nothing would work.I'm not sure if it's my computer. I have a seperate R script called LASSO and RF.R which includes include code, output, and figures for fitting the null models, LASSO, and Random Forests. While these do not work on my computer, maybe they will on yours?
+Note: The contents of this exercise (that work) include code, output, and figures for fitting the null models and Decision Tree. I unfortunately could not get my LASSO or Random Forest models to work, even after using your code. Everytime I try to run tune_grid(), R crashes. I tried multiple ways and seeked help, but nothing would work.I'm not sure if it's my computer. I have a seperate R script called LASSO and RF.R which includes include code, output, and figures for fitting the null models, LASSO, and Random Forests. While these do not work on my computer, maybe they will on yours?
 
 
 
